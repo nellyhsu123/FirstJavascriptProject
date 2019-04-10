@@ -23,14 +23,19 @@ document.querySelector('.btn-roll').addEventListener('click', function() {
 
 		// 3. Update the round score IF the rolled number was NOT a 1
 		if(previousRoll === 6 && dice === 6) {
+			scores[activePlayer] = 0;
+			document.getElementById('score-' + activePlayer).textContent = '0';
 			//next player
 			nextPlayer();
-		} else {
-			previousRoll = dice;
+		} else if(dice !== 1) {
 			//add score
 			roundScore += dice;
 			document.querySelector('#current-' + activePlayer).textContent = roundScore;
+		} else {
+			nextPlayer();
 		}
+
+		previousRoll = dice;
 	}
 	
 });
