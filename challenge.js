@@ -12,17 +12,28 @@ init();
 document.querySelector('.btn-roll').addEventListener('click', function() {
 	if(gameplaying) {
 		// 1. Random number
-		var dice = Math.floor(Math.random() * 6) + 1;
-		console.log(previousRoll, dice);
+		var dice1 = Math.floor(Math.random() * 6) + 1;
+		var dice2 = Math.floor(Math.random() * 6) + 1;
+
+		//querySelector only selects first appearance of it's element
 
 		// 2. Display the result
 		document.getElementById('dice-1').style.display = 'block';
 		document.getElementById('dice-2').style.display = 'block';
-		diceDOM.src = 'dice-' + dice + '.png';
+		document.getElementById('dice-1').src = 'dice-' + dice1 + '.png';
+		document.getElementById('dice-2').src = 'dice-' + dice2 + '.png';
 
+
+		if(dice1 !== 1 && dice2 !== 1) {
+			//add score
+			roundScore += dice1 + dice2;
+			document.querySelector('#current-' + activePlayer).textContent = roundScore;
+		} else {
+			nextPlayer();
+		}
 
 		// 3. Update the round score IF the rolled number was NOT a 1
-		if(previousRoll === 6 && dice === 6) {
+		/*if(previousRoll === 6 && dice === 6) {
 			scores[activePlayer] = 0;
 			document.getElementById('score-' + activePlayer).textContent = '0';
 			//next player
@@ -35,7 +46,7 @@ document.querySelector('.btn-roll').addEventListener('click', function() {
 			nextPlayer();
 		}
 
-		previousRoll = dice;
+		previousRoll = dice;*/
 	}
 	
 });
@@ -63,7 +74,8 @@ document.querySelector('.btn-hold').addEventListener('click', function() {
 		//Check if player won the game
 		if(scores[activePlayer] >= winningScore) {
 			document.querySelector('#name-' + activePlayer).textContent = 'Winner!';
-			document.querySelector('.dice').style.display = 'none';
+			document.getElementById('dice-1').style.display = 'none';
+			document.getElementById('dice-2').style.display = 'none';
 			//rather than writing tons of code in javascript to manipulate css, 
 			//make a style class in css in which you can add and remove
 			document.querySelector('.player-' + activePlayer + '-panel').classList.add('winner');
@@ -92,7 +104,8 @@ function nextPlayer() {
 	//document.querySelector('.player-0-panel').classList.remove('active');
 	//document.querySelector('.player-1-panel').classList.add('active');
 
-	document.querySelector('.dice').style.display = 'none';
+	document.getElementById('dice-1').style.display = 'none';
+	document.getElementById('dice-2').style.display = 'none';
 }
 
 document.querySelector('.btn-new').addEventListener('click', init);
@@ -104,7 +117,8 @@ function init(){
 	gameplaying = true;
 	previousRoll = 0;
 
-	document.querySelector('.dice').style.display = 'none';
+	document.getElementById('dice-1').style.display = 'none';
+	document.getElementById('dice-2').style.display = 'none';
 
 	document.getElementById('score-0').textContent = '0';
 	document.getElementById('score-1').textContent = '0';
@@ -126,4 +140,3 @@ function init(){
 //document.querySelector('#current-' + activePlayer).innerHTML = '<em>' + dice +'</>';
 
 //var x = document.querySelector('#score-0').textContent;
-
