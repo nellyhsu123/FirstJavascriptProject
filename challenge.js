@@ -16,8 +16,8 @@ document.querySelector('.btn-roll').addEventListener('click', function() {
 		console.log(previousRoll, dice);
 
 		// 2. Display the result
-		var diceDOM = document.querySelector('.dice');
-		diceDOM.style.display = 'block';
+		document.getElementById('dice-1').style.display = 'block';
+		document.getElementById('dice-2').style.display = 'block';
 		diceDOM.src = 'dice-' + dice + '.png';
 
 
@@ -49,8 +49,19 @@ document.querySelector('.btn-hold').addEventListener('click', function() {
 		// Update the UI
 		document.getElementById('score-' + activePlayer).textContent = scores[activePlayer];
 
+		var input = document.querySelector('.final-score').value;
+		var winningScore;
+
+		// Undefined, 0, nul or "" are COERCED to false
+		// Anything else is COERCED to true
+		if(input) {
+			winningScore = input;
+		} else {
+			winningScore = 100;
+		}
+
 		//Check if player won the game
-		if(scores[activePlayer] >= 20) {
+		if(scores[activePlayer] >= winningScore) {
 			document.querySelector('#name-' + activePlayer).textContent = 'Winner!';
 			document.querySelector('.dice').style.display = 'none';
 			//rather than writing tons of code in javascript to manipulate css, 
